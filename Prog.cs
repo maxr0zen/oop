@@ -4,7 +4,7 @@ using System.Xml.Linq;
 
 
 Items[] all_dish = new Items[] { new Coffee(1, 20, 2, 10, 5), new Coffee(2, 15, 7, 5, 10), new Coffee(3, 10, 5, 0, 5),
-    new Pies(1, 5, 7, 3), new Pies(2, 3, 6, 5), new Pies(3, 7, 12, 6) };
+    new Pies(1, 5, 7, 3), new Pies(2, 3, 6, 5), new Pies(3, 7, 12, 6), new Worker("Толя"), new Worker("Светлана"),new Worker("Евгения")};
 for(int i = 0; i < all_dish.Length; i++)
 {
     all_dish[i].Print();
@@ -99,7 +99,7 @@ class Coffee : Items
     }
 }
 
-class Items 
+class Items   
 {
     public int[] items;
 
@@ -112,6 +112,17 @@ class Items
         return 0;
     }
 }
+
+class Worker: Items
+{
+    public string name;
+    public Worker(string name)
+    {
+        this.name = name;
+    }
+}
+
+
 
 
 
