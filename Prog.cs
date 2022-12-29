@@ -1,46 +1,60 @@
 using System.Xml.Linq;
 
 
+Items[] all_dish = new Items[] {new Coffee(1, 20, 2, 10, 5), new Coffee(2, 15, 7, 5, 10), new Coffee(3, 10, 5, 0, 5),
+    new Pies(1, 5, 7, 3), new Pies(2, 3, 6, 5), new Pies(3, 7, 12, 6) };
 
 
-Items[] all_dish = new Items[] { new Coffee(1, 20, 2, 10, 5), new Coffee(2, 15, 7, 5, 10), new Coffee(3, 10, 5, 0, 5),
-    new Pies(1, 5, 7, 3), new Pies(2, 3, 6, 5), new Pies(3, 7, 12, 6), new Worker("Толя"), new Worker("Светлана"),new Worker("Евгения")};
-for(int i = 0; i < all_dish.Length; i++)
+
+Worker[] all_workers = new Worker[] { new Worker("Толя"), new Worker("Светлана"), new Worker("Евгения") };
+
+
+
+Cafe[] all = new Cafe[all_dish.Length + all_workers.Length];
+for (int i = 0; i < all.Length; i++)
 {
-    all_dish[i].Print();
+    if(i < all_dish.Length) { all[i] = all_dish[i]; }
+    if(i >= all_dish.Length) { all[i] = all_workers[i - all_dish.Length];}
 }
 
 
+static void Out(Cafe[] all)
+{
+    Console.WriteLine("Информация о Кафе");
+    Console.WriteLine("-----------------");
+    for (int i = 0; i < all.Length; i++)
+    {
+        all[i].Print();
+    }
+    Console.WriteLine("-----------------");
+}
+Out(all);
 
-
-
-
-
-
-static void Calculate(Items[] all_dish)
+/*
+static void Calculate(Items[] all)
 {
     int most = 0, less = 999, average = 0, current = 0;
 
-    for (int i = 0; i < all_dish.Length; i++)
+    for (int i = 0; i < all.Length; i++)
     {
-        if (all_dish[i].Most() > most)
+        if (all[i].Most() > most)
         {
-            most = all_dish[i].Most();
+            most = all[i].Most();
         }
-        if (less > all_dish[i].Most())
+        if (less > all[i].Most())
         {
-            less = all_dish[i].Most();
+            less = all[i].Most();
         }
-        average += all_dish[i].Most();
+        average += all[i].Most();
 
     }
-    average /= all_dish.Length;
+    average /= all.Length;
     Console.WriteLine($"Самый прибыльный продукт -  {most}  Наимение прибыльный продукт {less}  Средняя прибыль продукта {average}");
 }
 
-Calculate(all_dish);
-
-class Pies : Items
+Calculate(all);
+*/
+ class Pies : Items
 {
     public int id, self_price, pirce, count, stonks, all_stonks;
 
@@ -99,30 +113,38 @@ class Coffee : Items
     }
 }
 
-class Items   
+class Items : Cafe
 {
-    public int[] items;
+    public object[] item;
 
-    public virtual void Print()
-    {
-        
-    }
     public virtual int Most()
     {
         return 0;
     }
 }
 
-class Worker: Items
+class Worker: Cafe
 {
     public string name;
     public Worker(string name)
     {
         this.name = name;
     }
+    public override void Print()
+    {
+        Console.WriteLine($"Работник кафе - {name}");
+    }
 }
 
 
+class Cafe 
+{
+    public object[] info;
+    public virtual void Print()
+    {
+
+    }
+}
 
 
 
